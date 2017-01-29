@@ -1,0 +1,57 @@
+---
+output: 
+  pdf_document:
+    highlight: null
+    latex_engine: lualatex
+params:
+  letterBody: letterBody
+  constituentName: conName
+  constituentStreet: conStreet
+  constituentCity: conCity
+  constituentState: conState
+  constituentZip: conZip
+  constituentPhone: conPhone
+  repTitle: repTitle
+  repFirstName: repFirstName
+  repLastName: repLastName
+  repStreet: repStreet
+  repCity: repCity
+  repState: repState
+  repZip: repZip
+  repCC: repCC
+---
+
+```{r set-up, echo = F, results = 'hide'}
+conCityState <- paste(params$constituentCity, ", ", params$constituentState, " ", params$constituentZip, sep = "")
+repCityState <- paste(params$repCity, ", ", params$repState, " ", params$repZip, sep = "")
+repFullName <- paste(params$repTitle, params$repFirstName, params$repLastName, sep = " ")
+repShortName <- paste(params$repTitle, params$repLastName, sep = " ")
+```
+
+\begin{flushright}
+`r params$constituentName`\\
+`r params$constituentStreet`\\
+`r conCityState`\\
+`r params$constituentPhone`\\
+\vspace{10pt}
+`r format(lubridate::today(), format = "%B %e, %Y\\")`
+\end{flushright}
+\vspace{10pt}
+`r repFullName`\
+`r params$repStreet`\
+`r repCityState`\
+CC: `r params$repCC`\
+&nbsp;
+
+&nbsp;
+
+To `r repShortName`,
+
+`r params$letterBody`
+&nbsp;
+
+Sincerely,\
+&nbsp;
+
+
+`r params$constituentName`

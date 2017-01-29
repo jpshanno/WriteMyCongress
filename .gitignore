@@ -1,0 +1,9 @@
+.Rproj.user
+.Rhistory
+.RData
+rsconnect
+*.png
+*.jpg
+*.jpeg
+*.docx
+*.xlsx
