@@ -60,13 +60,20 @@ ui <- navbarPage(
    windowTitle = "Write to your Members of Congress",
    title = "",
    theme = shinytheme("flatly"),
+   footer = 
+     fluidRow(
+       column(width = 12,
+              align = "center",
+              HTML("<br><br>This project is free and open source under GNU APGLv3.<br>Source code can be found <a href = 'https://github.com/streamlinedeco/WriteMyCongress'>here</a>.<br>For more information please contact <a href = mailto:WriteMyCongress@outlook.com>WriteMyCongress@outlook.com</a>")
+       )
+     ),
    collapsible = TRUE,
    # Sidebar with a slider input for number of bins 
    tabPanel("Write",
             style = "width:80%; margin-right:auto; margin-left:auto", 
             useShinyjs(),
-            h2("Who you are"),
-            p("All field are required. No data entered into this form is stored, it is used to generate the header and body of your letter only."),
+            h2("Who are you?"),
+            p("All fields are required. (No data is stored.)"),
             fluidRow(style = "margin-right:auto; margin-left:auto",
               column(width = 6,
                      textInput("conName",
@@ -92,34 +99,42 @@ ui <- navbarPage(
               )
             ),
             fluidRow(
-              h2("What you want to say"),
+              h2("What do you want to say?"),
               column(width = 12,
                      textAreaInput2("letterBody",
-                                    "Your message (salutation & signature will be added):",
+                                    label = "",
+                                    placeholder = "Type your message here (salutation & signature will be added):",
                                     width = '100%')
               )
             ),
             fluidRow(
-              align = "center",
-              selectizeInput("offices",
-                             "Where do you want to send your letters?",
-                             choices = addresses$officeList,
-                             selected = addresses$officeList,
-                             multiple = TRUE,
-                             width = '60%')
+              h2("Where do you want to send your letters?"),
+              column(width = 12,
+                     align = "center",
+                     selectizeInput("offices",
+                                    label = "",
+                                    choices = c("Select your memebers of Congress" = "", 
+                                                addresses$officeList),
+                                    multiple = TRUE,
+                                    width = '60%')
+              )
             ),
             fluidRow(
               align = "center",
               disabled(downloadButton("downloadLetters",
-                             "Get My Letters"))
+                                      "Get My Letters"))
             )
    ),
-   tabPanel("Map the Offices",
-            p("Coming soon.")),
+   # tabPanel("Map the Offices",
+   #          p("Coming soon.")),
    tabPanel("About",
-            p("Coming soon."))
-)
-
+            style = "width:80%; margin-right:auto; margin-left:auto", 
+            h2("Thank you for being an active citizen!"),
+            br(),
+            p("This site was created to make it easier for anyone,",
+span("regardless of ideology or affilitation, ", style = 'font-style: italic'), "to write letters to their memebers of Congress (MoC). There shouldn't be any need to worry about formatting the letter, finding addresses, changing the address and printing the same letter 3 times. Instead, just type your message, choose where you want to send your letter and a PDF is generated that contains a formated letter addressed to each choosen MoC."),
+            p("As it currently stands it is a working proof of concept for Michigan's 1st Congressional District. In the near future the intention is to make it a national platform where a user's address retreives their MoCs. At that time it will be migrated to a new URL, until then it is limited to a set number of active hours per month. My goal is to have the migration complete before the app is frozen for exceeding the acitve hour limit. The transistion will invovle moving from free services to paid platforms and contributions to fund registration, hosting, and hardware will be welcome.")))
+   
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
   observe({
