@@ -1,7 +1,6 @@
 library(shiny)
 library(shinythemes)
 library(rmarkdown)
-library(leaflet)
 library(readr)
 library(rmarkdown)
 library(knitr)
@@ -58,7 +57,7 @@ ui <- navbarPage(
    
    # Application title
    windowTitle = "Write to your Members of Congress",
-   title = "",
+   title = "Write My Congress",
    theme = shinytheme("flatly"),
    footer = 
      fluidRow(
@@ -72,6 +71,7 @@ ui <- navbarPage(
    tabPanel("Write",
             style = "width:80%; margin-right:auto; margin-left:auto", 
             useShinyjs(),
+            # verbatimTextOutput("debug"),
             h2("Who are you?"),
             p("All fields are required. (No data is stored.)"),
             fluidRow(style = "margin-right:auto; margin-left:auto",
@@ -137,6 +137,7 @@ span("regardless of ideology or affilitation, ", style = 'font-style: italic'), 
    
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
+  # output$debug <- renderPrint(getwd())
   observe({
     toggleState(id = "downloadLetters", 
            input$conName != "" &&
@@ -156,8 +157,12 @@ server <- function(input, output, session) {
       filename = "WriteMyCongress.pdf",
       content = function(file){
         
-        tempLetters <- file.path(tempdir(), "Form_Letter.Rmd")
-        file.copy("Form_Letter.Rmd", tempLetters, overwrite = T)
+        # oldWD <- getwd()
+        # setwd(tempdir())
+        # on.exit(setwd(oldWD))
+        
+        # tempLetters <- file.path(tempdir(), "Form_Letter.Rmd")
+        # file.copy("Form_Letter.Rmd", tempLetters, overwrite = T)
         
         reps <- input$offices
         nLetters <- length(reps)
@@ -191,20 +196,19 @@ server <- function(input, output, session) {
           
         }
         
-        oldWD <- getwd()
-        setwd(tempdir())
-        holding <- tempfile()
-        # holding <- file.path(tempdir(), "holding")
+        # holding <- tempfile(tmpdir = getwd())
+        holding <- file.path(getwd(), "holding")
         
         write_file(knit(text = paste("\\pagenumbering{gobble}",
                                      letters,
                                      collapse = "\\newpage ")),
                    path = holding)
-        render(input = holding, 
+        rmarkdown::render(input = holding, 
                output_format = "pdf_document", 
                output_file = "pdfOut.pdf")
+        # file.remove(holding)
         file.rename("pdfOut.pdf", file)
-        setwd(oldWD)
+        # setwd(oldWD)
       }
     ) 
 }
