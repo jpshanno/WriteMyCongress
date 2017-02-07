@@ -1,0 +1,9 @@
+[32m[2017-02-06 20:37:02.432] [INFO] shiny-server - [39mShiny Server v1.5.1.834 (Node.js v6.9.1)
+[32m[2017-02-06 20:37:02.435] [INFO] shiny-server - [39mUsing pidfile /var/run/shiny-server.pid
+[32m[2017-02-06 20:37:02.437] [INFO] shiny-server - [39mUsing config file "/etc/shiny-server/shiny-server.conf"
+[33m[2017-02-06 20:37:02.478] [WARN] shiny-server - [39mRunning as root unnecessarily is a security risk! You could be running more securely as non-root.
+[32m[2017-02-06 20:37:02.482] [INFO] shiny-server - [39mStarting listener on 0.0.0.0:3838
+[32m[2017-02-06 20:39:22.852] [INFO] shiny-server - [39mCreated bookmark state directory: /var/lib/shiny-server/bookmarks
+[32m[2017-02-06 20:39:22.862] [INFO] shiny-server - [39mCreated user bookmark state directory: /var/lib/shiny-server/bookmarks/shiny
+[31m[2017-02-06 23:02:33.153] [ERROR] shiny-server - [39mFailed to render error 500 page: Can't set headers after they are sent.
+[31m[2017-02-07 01:41:00.036] [ERROR] shiny-server - [39mFailed to render error 500 page: Can't set headers after they are sent.

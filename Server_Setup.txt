@@ -58,5 +58,7 @@ pscp -i D:\LightsailDefaultPrivateKey.ppk app.R ubuntu@34.199.61.240:/srv/shiny-
 pscp -i D:\LightsailDefaultPrivateKey.ppk Form_Letter.Rmd ubuntu@34.199.61.240:/srv/shiny-server/writemycongress/Form_Letter.Rmd
 pscp -i D:\LightsailDefaultPrivateKey.ppk Congressional_Addresses.csv ubuntu@34.199.61.240:/srv/shiny-server/writemycongress/Congressional_Addresses.csv
 
+pscp -i D:\LightsailDefaultPrivateKey.ppk ubuntu@34.199.61.240:/srv/shiny-server/writemycongress/app.R app2.R 
+
 LOGS:
 /var/log/shiny-server/

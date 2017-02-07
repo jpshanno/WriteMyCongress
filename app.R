@@ -161,8 +161,8 @@ server <- function(input, output, session) {
         # setwd(tempdir())
         # on.exit(setwd(oldWD))
         
-        # tempLetters <- file.path(tempdir(), "Form_Letter.Rmd")
-        # file.copy("Form_Letter.Rmd", tempLetters, overwrite = T)
+        tempLetters <- file.path(tempdir(), "Form_Letter.Rmd")
+        file.copy("Form_Letter.Rmd", tempLetters, overwrite = T)
         
         reps <- input$offices
         nLetters <- length(reps)
@@ -196,8 +196,7 @@ server <- function(input, output, session) {
           
         }
         
-        # holding <- tempfile(tmpdir = getwd())
-        holding <- file.path(getwd(), "holding")
+        holding <- tempfile(tmpdir = getwd())
         
         write_file(knit(text = paste("\\pagenumbering{gobble}",
                                      letters,
