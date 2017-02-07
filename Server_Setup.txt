@@ -1,0 +1,64 @@
+# Add User
+sudo adduser joe
+sudo gpasswd -a joe sudo
+
+# Set-up
+sudo add-apt-repository -y "ppa:marutter/rrutter"
+sudo add-apt-repository -y "ppa:marutter/c2d4u"
+sudo apt-get update -y
+sudo apt-get upgrade
+sudo apt-get dist-upgrade
+sudo apt-get install r-base -y
+sudo apt-get install libcurl4-openssl-dev -y
+
+#Dependencies for devtools
+sudo apt-get -y install libcurl4-gnutls-dev
+sudo apt-get -y install libxml2-dev
+sudo apt-get -y install libssl-dev
+
+#Increase swap space - see http://deanattali.com/2015/05/09/setup-rstudio-shiny-server-digital-ocean/
+# sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
+# sudo /sbin/mkswap /var/swap.1
+# sudo /sbin/swapon /var/swap.1
+# sudo chmod 0775 /var/swap.1
+# sudo sh -c 'echo "/var/swap.1 swap swap defaults 0 0 " >> /etc/fstab'
+
+#Install Packages
+sudo su - \
+-c "R -e \"install.packages(c('knitr', 'lubridate', 'rmarkdown', 'shiny', 'shinyjs', 'shinythemes'), repos='https://cran.rstudio.com/')\""
+sudo apt-get install r-cran-readr
+
+#Install ShinyServer &  RStudio Server
+sudo apt-get install gdebi-core
+wget https://download3.rstudio.org/ubuntu-12.04/x86_64/shiny-server-1.5.1.834-amd64.deb
+wget https://download2.rstudio.org/rstudio-server-1.0.136-amd64.deb
+sudo gdebi rstudio-server-1.0.136-amd64.deb
+sudo gdebi shiny-server-1.5.1.834-amd64.deb
+
+#Install LaTex
+sudo apt-get install texlive-full
+
+# Set-up App folder and permissions http://deanattali.com/2015/05/09/setup-rstudio-shiny-server-digital-ocean/
+sudo mkdir /srv/shiny-server/writemycongress
+# sudo groupadd shiny-apps
+# sudo usermod -aG shiny-apps ubuntu
+# sudo usermod -aG shiny-apps shiny
+# cd /srv/shiny-server
+# sudo chown -R ubuntu:shiny-apps .
+# sudo chmod g+w .
+# sudo chmod g+s .
+
+# Allow user ubuntu to read/write files to add to shiny-server
+sudo usermod -G www-data ubuntu
+sudo chown -R www-data:www-data /srv/shiny-server
+sudo chmod -R 0775 /srv/shiny-server
+
+#Copy files over
+pscp -i D:\LightsailDefaultPrivateKey.ppk app.R ubuntu@34.199.61.240:/srv/shiny-server/writemycongress/app.R
+pscp -i D:\LightsailDefaultPrivateKey.ppk Form_Letter.Rmd ubuntu@34.199.61.240:/srv/shiny-server/writemycongress/Form_Letter.Rmd
+pscp -i D:\LightsailDefaultPrivateKey.ppk Congressional_Addresses.csv ubuntu@34.199.61.240:/srv/shiny-server/writemycongress/Congressional_Addresses.csv
+
+LOGS:
+/var/log/shiny-server/
+
+pscp -i F:\LightsailDefaultPrivateKey.ppk ubuntu@34.199.61.240:/var/log/shiny-server/writemycongress-shiny-20170207-014100-45776.log log.txt
