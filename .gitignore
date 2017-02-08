@@ -2,6 +2,7 @@
 .Rhistory
 .RData
 rsconnect
+resources
 *.png
 *.jpg
 *.jpeg

@@ -56,6 +56,35 @@ ui <- navbarPage(
   
    
    # Application title
+  header = 
+    tags$head(
+      tags$style(
+        HTML(
+          "body{
+            width:100%;
+            max-width:950px;
+            margin-left:auto;
+            margin-right:auto;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px;
+            height:100%;
+            padding-bottom: 5%;
+          }
+          .navbar{
+            margin-left:auto;
+            margin-right:auto;
+            width:100%;
+            max-width:960px;
+            box-shadow: 0 2px 5px;
+          }
+          @media (min-width:960px){
+            html{
+              background-image: linear-gradient(135deg,rgba(240,240,240,0.3), rgba(240,240,240,0.35));
+            }
+          }
+          "
+        )
+      )),
    windowTitle = "Write to your Members of Congress",
    title = "Write My Congress",
    theme = shinytheme("flatly"),
