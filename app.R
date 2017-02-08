@@ -43,10 +43,13 @@ addresses$office <-
          "District")
 
 addresses$officeList <- 
-  sort(paste(addresses$title, 
-             addresses$lastName, 
-             "-", 
-             addresses$office, sep = " "))
+  paste(addresses$title, 
+        addresses$lastName, 
+        "-", 
+        addresses$office, sep = " ")
+
+addresses$shortName <- 
+  paste(addresses$title, addresses$lastName, sep = " ")
 
 
 # osm_search(addresses$fullAddress, key = "QyfR0Wqpyl6GB67dXEU0fk2fYNnxNmSH")
@@ -84,7 +87,20 @@ ui <- navbarPage(
           }
           "
         )
-      )),
+      ),
+      tags$script(
+        "(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        
+        ga('create', 'UA-86491836-2', 'auto');
+        ga('send', 'pageview');
+        
+        "
+      )
+    ),
+
    windowTitle = "Write to your Members of Congress",
    title = "Write My Congress",
    theme = shinytheme("flatly"),
@@ -143,7 +159,7 @@ ui <- navbarPage(
                      selectizeInput("offices",
                                     label = "",
                                     choices = c("Select your memebers of Congress" = "", 
-                                                addresses$officeList),
+                                                sort(addresses$officeList)),
                                     multiple = TRUE,
                                     width = '60%')
               )
@@ -166,7 +182,7 @@ span("regardless of ideology or affilitation, ", style = 'font-style: italic'), 
    
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
-  # output$debug <- renderPrint(getwd())
+  # output$debug <- renderPrint(input$offices)
   observe({
     toggleState(id = "downloadLetters", 
            input$conName != "" &&
@@ -198,6 +214,9 @@ server <- function(input, output, session) {
         letters <- character(nLetters)
         for(I in 1:nLetters){
           repInfo <- addresses[addresses$officeList == reps[I],]
+          repShortNames <- unique(addresses[addresses$officeList %in% input$offices, "shortName"])
+          repInfo$cc <- paste(repShortNames[repShortNames != repInfo$shortName],
+                              collapse = "; ")
           letters[I] <-
             readr::read_file(
               rmarkdown::render("Form_Letter.Rmd",
@@ -234,7 +253,7 @@ server <- function(input, output, session) {
         rmarkdown::render(input = holding, 
                output_format = "pdf_document", 
                output_file = "pdfOut.pdf")
-        # file.remove(holding)
+        file.remove(holding)
         file.rename("pdfOut.pdf", file)
         # setwd(oldWD)
       }

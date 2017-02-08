@@ -40,7 +40,7 @@ repShortName <- paste(params$repTitle, params$repLastName, sep = " ")
 `r repFullName`\
 `r params$repStreet`\
 `r repCityState`\
-CC: `r params$repCC`\
+`r ifelse(params$repCC == "", "", paste("CC: ", params$repCC, "\\"))`
 &nbsp;
 
 &nbsp;
