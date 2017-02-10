@@ -39,9 +39,9 @@ repShortName <- paste(params$repTitle, params$repLastName, sep = " ")
 \end{flushright}
 \vspace{10pt}
 `r repFullName`\
-`r params$repPhone`\
 `r params$repStreet`\
 `r repCityState`\
+`r params$repPhone`\
 `r ifelse(params$repCC == "", "", paste("CC: ", params$repCC, "\\"))`
 &nbsp;
 
