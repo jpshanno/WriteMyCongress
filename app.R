@@ -11,31 +11,6 @@ library(tidyr)
 
 source("functions.R")
 
-# 
-# addresses <- 
-#   read.csv("Congressional_Addresses.csv", 
-#            stringsAsFactors = F)
-# 
-# addresses$fullAddress <- 
-#   paste(addresses$street,
-#         addresses$city, 
-#         addresses$state, sep = ", ")
-# 
-# addresses$office <- 
-#   ifelse(addresses$city == "Washington", 
-#          "D.C.", 
-#          "District")
-# 
-# addresses$officeList <- 
-#   paste(addresses$title, 
-#         addresses$lastName, 
-#         "-", 
-#         addresses$office, sep = " ")
-# 
-# addresses$shortName <- 
-#   paste(addresses$title, addresses$lastName, sep = " ")
-
-# Define UI for application that draws a histogram
 ui <- 
   navbarPage(
     
@@ -163,7 +138,6 @@ ui <-
                span("regardless of ideology or affiliation, ", style = 'font-style: italic'), "to write letters to their members of Congress (MoC). There shouldn't be any need to worry about formatting the letter, finding addresses, changing the address and printing the same letter 3 times. Instead, just type your message, choose where you want to send your letter and a PDF is generated that contains a formatted letter addressed to each chosen MoC.")
     )
   )
-
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
   # output$debug <- renderPrint({addresses})
@@ -178,7 +152,6 @@ server <- function(input, output, session) {
                 city = input$conCity,
                 state = input$conState)}
   })
-  
   
   observe({
     toggleState(id = "downloadLetters", 
@@ -203,8 +176,8 @@ server <- function(input, output, session) {
                            choices = c("Select your memebers of Congress" = "",
                                        addresses()$officeList))
     }
-    })
-
+  })
+  
   output$downloadLetters <- 
     downloadHandler(
       filename = "WriteMyCongress.pdf",

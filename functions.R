@@ -1,5 +1,5 @@
-textAreaInput2 <<- function (inputId, label, value = "", width = NULL, height = NULL, 
-                            cols = NULL, rows = NULL, placeholder = NULL, resize = NULL) 
+
+textAreaInput2 <<- function (inputId, label, value = "", width = NULL, height = NULL, cols = NULL, rows = NULL, placeholder = NULL, resize = NULL) 
 {
   value <- restoreInput(id = inputId, default = value)
   if (!is.null(resize)) {
@@ -17,6 +17,7 @@ textAreaInput2 <<- function (inputId, label, value = "", width = NULL, height = 
                                                         class = "form-control", placeholder = placeholder, style = style, 
                                                         rows = rows, cols = cols, value))
 }
+
 
 capwords <<- function(s, strict = FALSE) {
   cap <- function(s) paste(toupper(substring(s, 1, 1)),
