@@ -1,7 +1,0 @@
-chamber,title,firstName,lastName,street,city,state,zip,cc
-Senate,Senator,Debbie,Stabenow,"1901 West Ridge Street, Suite 7",Marquette,MI,49855,Representative Bergman; Senator Peters
-Senate,Senator,Gary,Peters,"857 West Washington Street, Suit 308",Marquette,MI,49855,Representative Bergman; Senator Stabenow
-House,Representative,Jack,Bergman,"1396 Douglas Drive, Suite 22B",Traverse City,MI,49696,Senator Peters; Senator Stabenow
-Senate,Senator,Debbie,Stabenow,731 Hart Senate Office Building,Washington,DC,20510,Representative Bergman; Senator Peters
-Senate,Senator,Gary,Peters,724 Hart Senate Office Building,Washington,DC,20510,Representative Bergman; Senator Stabenow
-House,Representative,Jack,Bergman,414 Cannon House Office Building,Washington,DC,20515,Senator Peters; Senator Stabenow

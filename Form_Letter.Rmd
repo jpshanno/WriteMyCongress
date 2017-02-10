@@ -19,6 +19,7 @@ params:
   repState: repState
   repZip: repZip
   repCC: repCC
+  repPhone: repPhone
 ---
 
 ```{r set-up, echo = F, results = 'hide'}
@@ -38,6 +39,7 @@ repShortName <- paste(params$repTitle, params$repLastName, sep = " ")
 \end{flushright}
 \vspace{10pt}
 `r repFullName`\
+`r params$repPhone`\
 `r params$repStreet`\
 `r repCityState`\
 `r ifelse(params$repCC == "", "", paste("CC: ", params$repCC, "\\"))`
