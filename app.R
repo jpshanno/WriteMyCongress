@@ -29,7 +29,7 @@ ui <-
             box-shadow: 0 0 10px;
             height:100%;
             padding-bottom: 5%;
-            padding-top: 70px;
+            padding-top: 90px;
           }
           .navbar{
             margin-left:auto;
@@ -59,8 +59,8 @@ ui <-
         )
       ),
     
-    windowTitle = "Write to your Members of Congress",
-    title = "Write My Congress",
+    windowTitle = "WriteMyCongress",
+    title = "WriteMyCongress",
     theme = shinytheme("flatly"),
     position = "fixed-top",
     footer = 
@@ -77,15 +77,17 @@ ui <-
              style = "width:80%; margin-right:auto; margin-left:auto", 
              useShinyjs(),
              # verbatimTextOutput("debug"),
+             h2("Who are we?"),
+             p("WriteMyCongress was created to simplifiy the process of writing to the people who represent you in Congress. Once you enter your address we'll retreive your members of Congress, and you can choose to write letters to their Washington office or their closest local office. Type your message and then we'll take care of getting their addresses and formatting all the letters, giving you a PDF to print and drop in the mail."),
              h2("Who are you?"),
-             p("All fields are required. (No data is stored.)"),
+             p("All fields except phone number are required, if you do provide a phone number it will be included in your return address on the letters. No data is stored."),
              fluidRow(style = "margin-right:auto; margin-left:auto",
                       column(width = 6,
                              textInput("conName",
                                        "Your Name:",
                                        width = '100%'),
                              textInput("conPhone",
-                                       "Phone:",
+                                       "Phone (optional):",
                                        width = '100%'),
                              textInput("conStreet",
                                        "Street:",
@@ -156,7 +158,6 @@ server <- function(input, output, session) {
   observe({
     toggleState(id = "downloadLetters", 
            input$conName != "" &&
-             input$conPhone != "" &&
              input$conStreet != "" &&
              input$conCity != "" &&
              input$conState != "" &&
