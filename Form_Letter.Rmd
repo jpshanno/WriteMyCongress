@@ -33,9 +33,10 @@ repShortName <- paste(params$repTitle, params$repLastName, sep = " ")
 `r params$constituentName`\\
 `r params$constituentStreet`\\
 `r conCityState`\\
-`r ifelse(params$constituentPhone == "", "", paste(params$constituentPhone, "\\"))`
+`r ifelse(params$constituentPhone == "", " ", params$constituentPhone)`\\
 \vspace{10pt}
 `r format(lubridate::today(), format = "%B %e, %Y\\")`
+\vspace{10pt}
 \end{flushright}
 \vspace{10pt}
 `r repFullName`\
