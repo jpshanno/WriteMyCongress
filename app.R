@@ -136,8 +136,12 @@ ui <-
              style = "width:80%; margin-right:auto; margin-left:auto", 
              h2("Thank you for being an active citizen!"),
              br(),
-             p("This site was created to make it easier for anyone,",
-               span("regardless of ideology or affiliation, ", style = 'font-style: italic'), "to write letters to their members of Congress (MoC). There shouldn't be any need to worry about formatting the letter, finding addresses, changing the address and printing the same letter 3 times. Instead, just type your message, choose where you want to send your letter and a PDF is generated that contains a formatted letter addressed to each chosen MoC.")
+             h3("The Purpose"),
+             p("The more engaged each citizen is the more accurately the government will represent our best interests. To that end this site was created to make it easier for anyone,", span("regardless of ideology or affiliation, ", style = 'font-style: italic'), "to write letters to their members of Congress (MoC). There shouldn't be any need to worry about formatting the letter, finding addresses, or printing the same letter 3 times with different names and addresses. Instead, just type your message, choose where you want to send your letter and a PDF is generated that contains a formatted letter addressed to each chosen MoC, about as easy as it can be."),
+             h3("Upcoming Features"),
+             HTML("<p>If you have any ideas for how to make this tool better please pass them along to <a href = mailto:writemycongress@outlook.com>WriteMyCongress@outlook.com</a>. Currently planning additions to WriteMyCongress include <ul><li>A postcard template in addition to the letter template</li><li>An example of a generated letter</li><li>An option to write to Congressional committees in addition to members of Congress</li></ul> Because this tool is meant for anyone there will not be any sample text provided for issues, but feel free to copy and paste sample text from anywhere into the form."),
+             h3("About the Author"),
+             p("Joe Shannon is an environmental scientist and researcher interested in ecohydrology. Part of his work is creating tools to make organizing and analyzing data more straightforward, transparent, and reproducible. After sharing the addresses of my members of Congress with friends a few times, and making three copies of my own letters, I realized I could take my ecological tools and make a civics tool.")
     )
   )
 # Define server logic required to draw a histogram
