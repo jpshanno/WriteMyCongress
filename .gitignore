@@ -10,3 +10,5 @@ resources
 *.xlsx
 nominatin_key
 Form_Letter.md
+logs
+analytics.js

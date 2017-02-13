@@ -76,7 +76,14 @@ fetch_MoC <<- function(zip = NULL, street = NULL, city = NULL, state = NULL){
              state = "D.C.",
              zip = ifelse(title == "Representative",
                           20515,
-                          20510)) %>% 
+                          20510),
+             shortName = paste0(title, " ", lastName),
+             officeList = paste0(shortName,
+                                 " - ",
+                                 city,
+                                 " ",
+                                 "Office")) %>% 
+      select(title, firstName, lastName, phone, street, city, state, zip, officeList, shortName) %>% 
       arrange(lastName)
     message("Looking up your address failed so the zip code you provided was used to retreive your Members of Congress. Zip codes can span multiple Congressional districts and states, please verify that your representatives are correct.")
   } else {
@@ -112,7 +119,7 @@ fetch_MoC <<- function(zip = NULL, street = NULL, city = NULL, state = NULL){
                                  " ",
                                  last,
                                  " - ",
-                                 office_type,
+                                 city,
                                  " ",
                                  "Office"),
              shortName = paste(title,

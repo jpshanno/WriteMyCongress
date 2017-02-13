@@ -10,6 +10,17 @@ library(shinythemes)
 library(tidyr)
 
 source("functions.R")
+president <- data.frame(title = "President",
+                        firstName = "Donald", 
+                        lastName = "Trump", 
+                        phone = "", 
+                        street = "1600 Pennsylvania Ave. NW", 
+                        city = "Washington", 
+                        state = "D.C.", 
+                        zip = "20500", 
+                        officeList = "President Trump - White House", 
+                        shortName = "President Trump",
+                        stringsAsFactors = F)
 
 ui <- 
   navbarPage(
@@ -46,17 +57,7 @@ ui <-
           "
           )
         ),
-        tags$script(
-          "(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-        
-        ga('create', 'UA-86491836-2', 'auto');
-        ga('send', 'pageview');
-        
-        "
-        )
+        includeScript("analytics.js")
       ),
     
     windowTitle = "WriteMyCongress",
@@ -119,7 +120,7 @@ ui <-
                       align = "center",
                       selectizeInput("offices",
                                      label = "",
-                                     choices =  list("Select your memebers of Congress" = ""),
+                                     choices =  list("Enter your address to find your members of Congress" = ""),
                                      multiple = TRUE,
                                      width = '60%')
                )
@@ -139,14 +140,14 @@ ui <-
              h3("The Purpose"),
              p("The more engaged each citizen is the more accurately the government will represent our best interests. To that end this site was created to make it easier for anyone,", span("regardless of ideology or affiliation, ", style = 'font-style: italic'), "to write letters to their members of Congress (MoC). There shouldn't be any need to worry about formatting the letter, finding addresses, or printing the same letter 3 times with different names and addresses. Instead, just type your message, choose where you want to send your letter and a PDF is generated that contains a formatted letter addressed to each chosen MoC, about as easy as it can be."),
              h3("Upcoming Features"),
-             HTML("<p>If you have any ideas for how to make this tool better please pass them along to <a href = mailto:writemycongress@outlook.com>WriteMyCongress@outlook.com</a>. Currently planning additions to WriteMyCongress include <ul><li>A postcard template in addition to the letter template</li><li>An example of a generated letter</li><li>An option to write to Congressional committees in addition to members of Congress</li></ul> Because this tool is meant for anyone there will not be any sample text provided for issues, but feel free to copy and paste sample text from anywhere into the form."),
+             HTML("<p>If you have any ideas for how to make this tool better please pass them along to <a href = mailto:writemycongress@outlook.com>WriteMyCongress@outlook.com</a>. Currently planning additions to WriteMyCongress include <ul><li>A postcard template in addition to the letter template</li><li>An example of a generated letter</li><li>An option to write to Congressional committees in addition to members of Congress</li><li>The ability to generate a bookmark with your addresses pre-populated</li></ul> Because this tool is meant for anyone there will not be any sample text provided for issues, but feel free to copy and paste sample text from anywhere into the form."),
              h3("About the Author"),
              p("Joe Shannon is an environmental scientist and researcher interested in ecohydrology. Part of his work is creating tools to make organizing and analyzing data more straightforward, transparent, and reproducible. After sharing the addresses of my members of Congress with friends a few times, and making three copies of my own letters, I realized I could take my ecological tools and make a civics tool.")
     )
   )
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
-  # output$debug <- renderPrint({addresses})
+  # output$debug <- renderPrint({input$conPhone})
   
   addresses <- reactive({
     if(input$conStreet != "" &&
@@ -166,6 +167,11 @@ server <- function(input, output, session) {
              input$conCity != "" &&
              input$conState != "" &&
              input$conZip != "" &&
+             input$conName != " " &&
+             input$conStreet != " " &&
+             input$conCity != " " &&
+             input$conState != " " &&
+             input$conZip != " " &&
              input$letterBody != "" &&
              input$offices != ""
            )
@@ -175,11 +181,15 @@ server <- function(input, output, session) {
     if(input$conStreet != "" &&
        input$conCity != "" &&
        input$conState != "" &&
+       input$conStreet != " " &&
+       input$conCity != " " &&
+       input$conState != " " &&
        input$conZip != ""){
       updateSelectizeInput(session,
                            "offices",
-                           choices = c("Select your memebers of Congress" = "",
-                                       addresses()$officeList))
+                           choices = c("Select your members of Congress" = "",
+                                       addresses()$officeList,
+                                       president$officeList[1]))
     }
   })
   
@@ -193,6 +203,13 @@ server <- function(input, output, session) {
         # on.exit(setwd(oldWD))
         
         ADDRESSES <- as.data.frame(addresses())
+        if(president$officeList %in% input$offices){
+          ADDRESSES <- 
+            bind_rows(
+              ADDRESSES,
+              president
+            )
+        }
         
         tempLetters <- file.path(tempdir(), "Form_Letter.Rmd")
         file.copy("Form_Letter.Rmd", tempLetters, overwrite = T)
